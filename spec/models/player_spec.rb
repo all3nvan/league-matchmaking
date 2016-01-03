@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'TrueSkill'
 
 RSpec.describe Player, type: :model do
   describe '#attributes' do
