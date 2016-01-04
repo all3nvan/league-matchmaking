@@ -10,7 +10,7 @@ RSpec.describe UpdateRatingsJob, type: :job do
                             2055912851, 2055912296]
 
       VCR.use_cassette('old_match_history') do
-        inhouse_matches = job.new_inhouse_matches
+        inhouse_matches = job.send(:new_inhouse_matches)
 
         expected_match_ids.each_index do |i|
           expect(inhouse_matches[i]['gameId']).to eq(expected_match_ids[i])
