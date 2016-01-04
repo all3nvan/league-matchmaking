@@ -22,7 +22,7 @@ RSpec.describe UpdateRatingsJob, type: :job do
   end
 
   describe '#teams' do
-    it 'separates players into teams' do
+    it 'separates players into teams when tracked player is on blue team' do
       VCR.use_cassette('old_match_history') do
         inhouse_matches = job.send(:new_inhouse_matches)
         inhouse_match = inhouse_matches.last
@@ -30,6 +30,23 @@ RSpec.describe UpdateRatingsJob, type: :job do
         expected = {
           blue_team: [21740765, 32935590, 19808433, 38833769, 23472148],
           red_team: [34623703, 22004927, 37437842, 38268599, 43506536]
+        }
+
+        teams = job.send(:teams, inhouse_match)
+
+        expect(teams[:blue_team]).to eq(expected[:blue_team])
+        expect(teams[:red_team]).to eq(expected[:red_team])
+      end
+    end
+
+    it 'separates players into teams when tracked player is on red team' do
+      VCR.use_cassette('old_match_history') do
+        inhouse_matches = job.send(:new_inhouse_matches)
+        inhouse_match = inhouse_matches.select { |match| match['gameId'] == 2056989128 }.first
+
+        expected = {
+          blue_team: [42731486, 38060496, 37437842, 22122936, 19658154],
+          red_team: [24822050, 19808433, 38833769, 19306933, 23472148]
         }
 
         teams = job.send(:teams, inhouse_match)
