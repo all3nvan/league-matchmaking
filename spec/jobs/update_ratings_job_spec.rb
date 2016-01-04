@@ -25,6 +25,7 @@ RSpec.describe UpdateRatingsJob, type: :job do
     it 'separates players into teams when tracked player is on blue team' do
       VCR.use_cassette('old_match_history') do
         inhouse_matches = job.send(:new_inhouse_matches)
+        # this might change if recorded match history response changes
         inhouse_match = inhouse_matches.last
 
         expected = {
@@ -39,6 +40,7 @@ RSpec.describe UpdateRatingsJob, type: :job do
     it 'separates players into teams when tracked player is on red team' do
       VCR.use_cassette('old_match_history') do
         inhouse_matches = job.send(:new_inhouse_matches)
+        # this might change if recorded match history response changes
         inhouse_match = inhouse_matches.select { |match| match['gameId'] == 2056989128 }.first
 
         expected = {
