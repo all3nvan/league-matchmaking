@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160102223959) do
+ActiveRecord::Schema.define(version: 20160104224814) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20160102223959) do
     t.integer  "champion_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.boolean  "win"
   end
 
   create_table "matches", force: :cascade do |t|
