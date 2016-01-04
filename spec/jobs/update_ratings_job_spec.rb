@@ -52,4 +52,46 @@ RSpec.describe UpdateRatingsJob, type: :job do
       end
     end
   end
+
+  describe '#determine_winner' do
+    it 'is 100 when tracked player is on blue team and wins' do
+      VCR.use_cassette('old_match_history') do
+        inhouse_matches = job.send(:new_inhouse_matches)
+        # this might change if recorded match history response changes
+        inhouse_match = inhouse_matches.select { |match| match['gameId'] == 2055912296 }.first
+
+        expect(job.send(:determine_winner, inhouse_match)).to eq(100)
+      end
+    end
+
+    it 'is 200 when tracked player is on red team and wins' do
+      VCR.use_cassette('old_match_history') do
+        inhouse_matches = job.send(:new_inhouse_matches)
+        # this might change if recorded match history response changes
+        inhouse_match = inhouse_matches.select { |match| match['gameId'] == 2056823635 }.first
+
+        expect(job.send(:determine_winner, inhouse_match)).to eq(200)
+      end
+    end
+
+    it 'is 200 when tracked player is on blue team and loses' do
+      VCR.use_cassette('old_match_history') do
+        inhouse_matches = job.send(:new_inhouse_matches)
+        # this might change if recorded match history response changes
+        inhouse_match = inhouse_matches.select { |match| match['gameId'] == 2056823959 }.first
+
+        expect(job.send(:determine_winner, inhouse_match)).to eq(200)
+      end
+    end
+
+    it 'is 100 when tracked player is on red team and loses' do
+      VCR.use_cassette('old_match_history') do
+        inhouse_matches = job.send(:new_inhouse_matches)
+        # this might change if recorded match history response changes
+        inhouse_match = inhouse_matches.select { |match| match['gameId'] == 2056989128 }.first
+
+        expect(job.send(:determine_winner, inhouse_match)).to eq(100)
+      end
+    end
+  end
 end
