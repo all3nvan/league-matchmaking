@@ -20,4 +20,23 @@ RSpec.describe UpdateRatingsJob, type: :job do
       end
     end
   end
+
+  describe '#teams' do
+    it 'separates players into teams' do
+      VCR.use_cassette('old_match_history') do
+        inhouse_matches = job.send(:new_inhouse_matches)
+        inhouse_match = inhouse_matches.last
+
+        expected = {
+          blue_team: [21740765, 32935590, 19808433, 38833769, 23472148],
+          red_team: [34623703, 22004927, 37437842, 38268599, 43506536]
+        }
+
+        teams = job.send(:teams, inhouse_match)
+
+        expect(teams[:blue_team]).to eq(expected[:blue_team])
+        expect(teams[:red_team]).to eq(expected[:red_team])
+      end
+    end
+  end
 end
