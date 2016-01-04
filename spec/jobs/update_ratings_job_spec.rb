@@ -29,8 +29,8 @@ RSpec.describe UpdateRatingsJob, type: :job do
         inhouse_match = inhouse_matches.last
 
         expected = {
-          blue_team: [21740765, 32935590, 19808433, 38833769, 23472148],
-          red_team: [34623703, 22004927, 37437842, 38268599, 43506536]
+          100 => [23472148, 21740765, 32935590, 19808433, 38833769],
+          200 => [34623703, 22004927, 37437842, 38268599, 43506536]
         }
 
         expect(job.send(:teams, inhouse_match)).to eq(expected)
@@ -44,8 +44,8 @@ RSpec.describe UpdateRatingsJob, type: :job do
         inhouse_match = inhouse_matches.select { |match| match['gameId'] == 2056989128 }.first
 
         expected = {
-          blue_team: [42731486, 38060496, 37437842, 22122936, 19658154],
-          red_team: [24822050, 19808433, 38833769, 19306933, 23472148]
+          100 => [42731486, 38060496, 37437842, 22122936, 19658154],
+          200 => [23472148, 24822050, 19808433, 38833769, 19306933]
         }
 
         expect(job.send(:teams, inhouse_match)).to eq(expected)
