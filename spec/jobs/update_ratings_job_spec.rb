@@ -32,10 +32,7 @@ RSpec.describe UpdateRatingsJob, type: :job do
           red_team: [34623703, 22004927, 37437842, 38268599, 43506536]
         }
 
-        teams = job.send(:teams, inhouse_match)
-
-        expect(teams[:blue_team]).to eq(expected[:blue_team])
-        expect(teams[:red_team]).to eq(expected[:red_team])
+        expect(job.send(:teams, inhouse_match)).to eq(expected)
       end
     end
 
@@ -49,10 +46,7 @@ RSpec.describe UpdateRatingsJob, type: :job do
           red_team: [24822050, 19808433, 38833769, 19306933, 23472148]
         }
 
-        teams = job.send(:teams, inhouse_match)
-
-        expect(teams[:blue_team]).to eq(expected[:blue_team])
-        expect(teams[:red_team]).to eq(expected[:red_team])
+        expect(job.send(:teams, inhouse_match)).to eq(expected)
       end
     end
   end
