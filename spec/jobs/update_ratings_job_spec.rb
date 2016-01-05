@@ -4,6 +4,19 @@ RSpec.describe UpdateRatingsJob, type: :job do
   let(:player) { Player.create(name: 'all3nvan', summoner_id: 23472148) }
   let(:job) { UpdateRatingsJob.new(player) }
 
+  before(:all) do
+    Player.create(name: 'a', summoner_id: 100)
+    Player.create(name: 'a', summoner_id: 101)
+    Player.create(name: 'a', summoner_id: 102)
+    Player.create(name: 'a', summoner_id: 103)
+    Player.create(name: 'a', summoner_id: 104)
+    Player.create(name: 'a', summoner_id: 20)
+    Player.create(name: 'a', summoner_id: 19)
+    Player.create(name: 'a', summoner_id: 18)
+    Player.create(name: 'a', summoner_id: 17)
+    Player.create(name: 'a', summoner_id: 16)
+  end
+
   describe '#new_inhouse_matches' do
     it 'selects inhouse matches from match history' do
       expected_match_ids = [2056989128, 2056988616, 2056823959, 2056823635, 2056823072,
@@ -100,18 +113,18 @@ RSpec.describe UpdateRatingsJob, type: :job do
       team_summoner_ids = { 100 => [100, 101, 102, 103, 104], 200 => [20, 19, 18, 17, 16] }
       expected = {
         100 => [
-          Player.create(name: 'a', summoner_id: 100),
-          Player.create(name: 'a', summoner_id: 101),
-          Player.create(name: 'a', summoner_id: 102),
-          Player.create(name: 'a', summoner_id: 103),
-          Player.create(name: 'a', summoner_id: 104)
+          Player.find_by(name: 'a', summoner_id: 100),
+          Player.find_by(name: 'a', summoner_id: 101),
+          Player.find_by(name: 'a', summoner_id: 102),
+          Player.find_by(name: 'a', summoner_id: 103),
+          Player.find_by(name: 'a', summoner_id: 104)
         ],
         200 => [
-          Player.create(name: 'a', summoner_id: 20),
-          Player.create(name: 'a', summoner_id: 19),
-          Player.create(name: 'a', summoner_id: 18),
-          Player.create(name: 'a', summoner_id: 17),
-          Player.create(name: 'a', summoner_id: 16)
+          Player.find_by(name: 'a', summoner_id: 20),
+          Player.find_by(name: 'a', summoner_id: 19),
+          Player.find_by(name: 'a', summoner_id: 18),
+          Player.find_by(name: 'a', summoner_id: 17),
+          Player.find_by(name: 'a', summoner_id: 16)
         ]
       }
 
