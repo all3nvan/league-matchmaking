@@ -32,6 +32,24 @@ RSpec.describe UpdateRatingsJob, type: :job do
         expect(inhouse_matches.size).to eq(expected_match_ids.size)
       end
     end
+
+    it "doesn't detect eddie's bot games" do
+      player_with_bot_game = Player.create(name: 'edzwoo', summoner_id: 38049106)
+      job_with_bot_game = UpdateRatingsJob.new(player_with_bot_game)
+
+      expected_match_ids = [2058246032, 2058474674, 2056823959, 2056823635, 2056823072,
+                            2054191715]
+
+      VCR.use_cassette('match history with bot game') do
+        inhouse_matches = job_with_bot_game.send(:new_inhouse_matches)
+
+        expected_match_ids.each_index do |i|
+          expect(inhouse_matches[i]['gameId']).to eq(expected_match_ids[i])
+        end
+
+        expect(inhouse_matches.size).to eq(expected_match_ids.size)
+      end
+    end
   end
 
   describe '#teams' do

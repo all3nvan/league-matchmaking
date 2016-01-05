@@ -51,7 +51,10 @@ class UpdateRatingsJob < ActiveJob::Base
     rate_limit
 
     @riot_api.old_match_history(@player.summoner_id).select do |match|
-      match['gameType'] == 'CUSTOM_GAME' && !Match.exists?(match_id: match['gameId'])
+      match['gameType'] == 'CUSTOM_GAME' &&
+      !Match.exists?(match_id: match['gameId']) &&
+      match['fellowPlayers'] &&
+      match['fellowPlayers'].size == 9
     end
   end
 
