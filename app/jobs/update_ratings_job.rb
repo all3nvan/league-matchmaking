@@ -29,9 +29,9 @@ class UpdateRatingsJob < ActiveJob::Base
       end
 
       update_ratings(teams, winning_team_id)
-
-      self.class.set(wait: 30.min).perform_later
     end
+
+    self.class.set(wait: 30.minutes).perform_later(@player)
   end
 
   private
