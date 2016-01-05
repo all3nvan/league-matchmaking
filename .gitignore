@@ -33,3 +33,6 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
+
+# dev and production sockets are different
+config/database.yml
