@@ -8,7 +8,7 @@ class UpdateRatingsJob < ActiveJob::Base
     @num_of_requests = 10
   end
 
-  def perform(*args)
+  def perform
     new_inhouse_matches.each do |inhouse_match|
       match = create_match(inhouse_match)
       teams = teams(inhouse_match)
@@ -29,6 +29,8 @@ class UpdateRatingsJob < ActiveJob::Base
       end
 
       update_ratings(teams, winning_team_id)
+
+      self.class.set(wait: 30.min).perform_later
     end
   end
 
