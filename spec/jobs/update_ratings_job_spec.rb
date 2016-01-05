@@ -94,4 +94,28 @@ RSpec.describe UpdateRatingsJob, type: :job do
       end
     end
   end
+
+  describe '#team_players' do
+    it 'transforms summoner ids to player objects' do
+      team_summoner_ids = { 100 => [100, 101, 102, 103, 104], 200 => [20, 19, 18, 17, 16] }
+      expected = {
+        100 => [
+          Player.create(name: 'a', summoner_id: 100),
+          Player.create(name: 'a', summoner_id: 101),
+          Player.create(name: 'a', summoner_id: 102),
+          Player.create(name: 'a', summoner_id: 103),
+          Player.create(name: 'a', summoner_id: 104)
+        ],
+        200 => [
+          Player.create(name: 'a', summoner_id: 20),
+          Player.create(name: 'a', summoner_id: 19),
+          Player.create(name: 'a', summoner_id: 18),
+          Player.create(name: 'a', summoner_id: 17),
+          Player.create(name: 'a', summoner_id: 16)
+        ]
+      }
+
+      expect(job.send(:team_players, team_summoner_ids)).to eq(expected)
+    end
+  end
 end
