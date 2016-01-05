@@ -40,7 +40,7 @@ RSpec.describe UpdateRatingsJob, type: :job do
       expected_match_ids = [2058246032, 2058474674, 2056823959, 2056823635, 2056823072,
                             2054191715]
 
-      VCR.use_cassette('match history with bot game') do
+      VCR.use_cassette('old match history with bot game') do
         inhouse_matches = job_with_bot_game.send(:new_inhouse_matches)
 
         expected_match_ids.each_index do |i|
@@ -48,6 +48,15 @@ RSpec.describe UpdateRatingsJob, type: :job do
         end
 
         expect(inhouse_matches.size).to eq(expected_match_ids.size)
+      end
+    end
+
+    it 'ignores matches that are already in database' do
+      VCR.use_cassette('old_match_history') do
+        Match.create(match_id: 2056989128, time: 0)
+        inhouse_matches = job.send(:new_inhouse_matches)
+
+        expect(inhouse_matches.size).to eq(6)
       end
     end
   end
