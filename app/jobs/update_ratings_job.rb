@@ -37,10 +37,12 @@ class UpdateRatingsJob < ActiveJob::Base
   private
 
   def rate_limit
-    @num_of_requests += 1
-    if @num_of_requests >= 10
-      sleep(11)
-      @num_of_requests = 0
+    unless Rails.env.test?
+      @num_of_requests += 1
+      if @num_of_requests >= 10
+        sleep(11)
+        @num_of_requests = 0
+      end
     end
   end
 
