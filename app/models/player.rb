@@ -6,6 +6,18 @@ class Player < ActiveRecord::Base
 
   before_create :set_default_rating
 
+  def wins
+    MatchPlayer.where(player_id: self.id, win: true).count
+  end
+
+  def losses
+    MatchPlayer.where(player_id: self.id, win: false).count
+  end
+
+  def trueskill
+    self.rating - 3 * self.standard_deviation
+  end
+
   private
 
   def set_default_rating

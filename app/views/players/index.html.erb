@@ -1,0 +1,24 @@
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th>Rank</th>
+				<th>Summoner</th>
+				<th>Rating</th>
+				<th>Wins</th>
+				<th>Losses</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% players_by_rank(@players).each.with_index do |player, i| %>
+				<tr>
+					<td><%= i + 1 %></td>
+					<td><%= player.name %></td>
+					<td><%= player.trueskill %></td>
+					<td><%= player.wins %></td>
+					<td><%= player.losses %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
