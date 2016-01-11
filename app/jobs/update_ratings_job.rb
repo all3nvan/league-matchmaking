@@ -1,14 +1,16 @@
 class UpdateRatingsJob < ActiveJob::Base
   queue_as :default
 
-  def initialize(player)
+  def initialize(*args)
     super
     @riot_api = RiotApi.new
-    @player = player
     @num_of_requests = 10
   end
 
-  def perform
+  def perform(player)
+    # not sure how to initialize @player in constructor and perform_later
+    @player = player
+
     new_inhouse_matches.each do |inhouse_match|
       match = create_match(inhouse_match)
       teams = teams(inhouse_match)
@@ -31,7 +33,7 @@ class UpdateRatingsJob < ActiveJob::Base
       update_ratings(teams, winning_team_id)
     end
 
-    self.class.set(wait: 30.minutes).perform_later(@player)
+    self.class.set(wait: 15.minutes).perform_later(player)
   end
 
   private
