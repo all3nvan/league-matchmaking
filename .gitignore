@@ -36,3 +36,5 @@ bower.json
 
 # dev and production sockets are different
 config/database.yml
+
+.byebug_history
