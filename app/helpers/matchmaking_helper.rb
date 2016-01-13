@@ -12,13 +12,13 @@ module MatchmakingHelper
   end
 
   def team_combos(selected_player_ids)
-    team_1 = selected_player_ids.combination(5).to_a
-    team_2 = team_1.map do |team|
+    team_1_combos = selected_player_ids.combination(5).to_a
+    team_2_combos = team_1_combos.map do |team|
       selected_player_ids.reject { |id| team.include?(id) }
     end
 
-    (0..team_1.length - 1).map do |i|
-      [team_1[i], team_2[i]]
+    (0..team_1_combos.length - 1).map do |i|
+      [team_1_combos[i], team_2_combos[i]]
     end
   end
 
