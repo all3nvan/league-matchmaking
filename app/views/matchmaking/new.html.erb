@@ -6,7 +6,7 @@
 
 	<%= form_tag matchmaking_index_path, method: :post do %>
 		<% @players.each do |player| %>
-			<div class="checkbox"><%= check_box_tag player.id, 'selected' %><%= player.name %></div>
+			<div class="checkbox"><%= check_box_tag 'selected_players[]', player.id %><%= player.name %></div>
 		<% end %>
 		<%= submit_tag "Create Match", class: "btn btn-success" %>
 	<% end %>
