@@ -1,0 +1,11 @@
+<div class="container">
+	<table class="table table-striped">
+		<tbody>
+			<% @matches.each.with_index do |match, i| %>
+				<tr>
+					<td><%= i + 1 %>. <%= link_to Time.at(match.time), match_url(match), target: "_blank" %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
