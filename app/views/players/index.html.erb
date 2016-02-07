@@ -13,7 +13,7 @@
 			<% players_by_rank(@players).each.with_index do |player, i| %>
 				<tr>
 					<td><%= i + 1 %></td>
-					<td><%= player.name %></td>
+					<td><%= link_to player.name, player_path(player) %></td>
 					<td><%= player.trueskill.round(3) %></td>
 					<td><%= player.wins %></td>
 					<td><%= player.losses %></td>
