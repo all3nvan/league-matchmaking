@@ -37,7 +37,7 @@ class Player < ActiveRecord::Base
       }
     end
 
-    stats.sort_by { |stat| [ stat[:winrate], stat[:wins] ] }.reverse
+    stats.sort_by { |stat| [stat[:winrate], stat[:wins]] }.reverse
   end
 
   private

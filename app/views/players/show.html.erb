@@ -11,10 +11,11 @@
 			</tr>
 		</thead>
 		<tbody>
+			<% champion_map = ChampionMap.new %>
 			<% @player.champion_stats.each.with_index do |champion, i| %>
 				<tr>
 					<td><%= i + 1%></td>
-					<td><%= champion[:id] %></td>
+					<td><%= champion_map.by_id(champion[:id]) %></td>
 					<td><%= champion[:winrate] %></td>
 					<td><%= champion[:wins] %></td>
 					<td><%= champion[:losses] %></td>
