@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root 'players#index'
   resources :matchmaking, only: [:new, :create]
   resources :match, only: [:index]
+  resources :players, only: [:index, :show]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
