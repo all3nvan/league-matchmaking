@@ -1,0 +1,26 @@
+<h3 class="text-center">Champions</h3>
+<div class="container">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Rank</th>
+				<th>Champion</th>
+				<th>Winrate</th>
+				<th>Wins</th>
+				<th>Losses</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% champion_map = ChampionMap.new %>
+			<% @champions.each.with_index do |champion, i| %>
+				<tr>
+					<td><%= i + 1%></td>
+					<td><%= champion_map.by_id(champion[:id]) %></td>
+					<td><%= champion[:winrate] %></td>
+					<td><%= champion[:wins] %></td>
+					<td><%= champion[:losses] %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
