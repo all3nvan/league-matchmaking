@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root 'players#index'
   resources :matchmaking, only: [:new, :create]
   resources :match, only: [:index]
-  resources :players, only: [:index, :show]
+  resources :players, only: [:index, :show], defaults: { format: :json }
   resources :champions, only: [:index]
 
   # Example of regular route:
