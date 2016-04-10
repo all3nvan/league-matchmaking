@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'players#index'
-  resources :matchmaking, only: [:new, :create]
+  root 'players#index', defaults: { format: :json }
+  resources :matchmaking, only: [:new], defaults: { format: :json }
+  resources :matchmaking, only: [:create]
   resources :match, only: [:index]
-  resources :players, only: [:index, :show], defaults: { format: :json }
+  resources :players, only: [:index], defaults: { format: :json }
   resources :champions, only: [:index]
 
   # Example of regular route:
