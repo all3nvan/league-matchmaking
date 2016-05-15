@@ -1,6 +1,6 @@
 require 'open-uri'
 
-class RiotApi
+class RiotApiClient
   BASE_URL = 'https://na.api.pvp.net/api/lol/na'
   API_KEY = Rails.application.secrets.riot_api_key
 
