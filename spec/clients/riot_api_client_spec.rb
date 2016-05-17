@@ -1,65 +1,64 @@
 require 'rails_helper'
 
 RSpec.describe RiotApiClient, type: :client do
-  let(:riot_api_client) { instance_double("RiotApiClient") }
+  let(:riot_api_client) { RiotApiClient.new }
   let(:summoner_id) { 23472148 }
 
-  describe '#summoner_by_id' do
+  describe '#fetch_summoner' do
+    let(:fetch_summoner_url) {
+      "#{RiotApiClient::BASE_URL}/v1.4/summoner/#{summoner_id}?api_key=#{RiotApiClient::API_KEY}"
+    }
+
     context 'when successful' do
       it 'returns summoner info' do
-        allow(riot_api_client).to receive(:summoner_by_id).
-          with(summoner_id).
-          and_return({
-            "id": 23472148,
-            "name": "all3nvan",
-            "profileIconId": 917,
-            "revisionDate": 1463290322000,
-            "summonerLevel": 30
-          })
+        stub_request(:get, fetch_summoner_url).
+          to_return(
+            body: {"23472148":{"id":23472148,"name":"all3nvan","profileIconId":917,"summonerLevel":30,"revisionDate":1463376656000}}.
+              to_json,
+            status: 200)
 
-        response = riot_api_client.summoner_by_id(summoner_id)
+        response = riot_api_client.fetch_summoner(summoner_id)
 
-        expect(response[:id]).to eq(summoner_id)
+        expect(response['id']).to eq(summoner_id)
+        expect(response['name']).to eq('all3nvan')
       end
     end
 
     context 'when unsuccessful' do
       it 'raises exception' do
-        allow(riot_api_client).to receive(:summoner_by_id).
-          and_raise(OpenURI::HTTPError.new('bad response', nil))
+        stub_request(:get, fetch_summoner_url).to_return(status: [429, 'Rate limit exceeded'])
 
-        expect { riot_api_client.summoner_by_id(summoner_id) }.
-          to raise_exception(OpenURI::HTTPError)
+        expect { riot_api_client.fetch_summoner(summoner_id) }.to raise_error(OpenURI::HTTPError)
       end
     end
   end
 
-  describe '#old_match_history' do
+  describe '#fetch_old_match_history' do
+    let(:fetch_old_match_history_url) {
+      "#{RiotApiClient::BASE_URL}/v1.3/game/by-summoner/#{summoner_id}/recent?api_key=#{RiotApiClient::API_KEY}"
+    }
+
     context 'when successful' do
       it 'returns match history' do
-        allow(riot_api_client).to receive(:old_match_history).
-          with(summoner_id).
-          and_return({
-             "games": [
-                # removed individual game data
-                {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
-             ],
-             "summonerId": 23472148
-          })
+        stub_request(:get, fetch_old_match_history_url).
+          to_return(
+            body: {"games":[{},{},{},{},{},{},{},{},{},{}],"summonerId": 23472148}
+              .to_json,
+            status: 200)
 
-        response = riot_api_client.old_match_history(summoner_id)
+        response = riot_api_client.fetch_old_match_history(summoner_id)
 
-        expect(response[:summonerId]).to eq(summoner_id)
-        expect(response[:games]).to be_an_instance_of(Array)
+        expect(response['summonerId']).to eq(summoner_id)
+        expect(response['games']).to be_an_instance_of(Array)
       end
     end
 
     context 'when unsuccessful' do
       it 'raises exception' do
-        allow(riot_api_client).to receive(:old_match_history).
-          and_raise(OpenURI::HTTPError.new('bad response', nil))
+        stub_request(:get, fetch_old_match_history_url).
+          to_return(status: [429, 'Rate limit exceeded'])
 
-        expect { riot_api_client.old_match_history(summoner_id) }.
+        expect { riot_api_client.fetch_old_match_history(summoner_id) }.
           to raise_exception(OpenURI::HTTPError)
       end
     end
