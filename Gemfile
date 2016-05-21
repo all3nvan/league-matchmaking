@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.6'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
@@ -20,7 +20,6 @@ end
 
 group :test do
   gem 'rspec-rails', '~> 3.0'
-  gem 'vcr'
   gem 'webmock'
 end
 
