@@ -15,8 +15,8 @@ class RiotApiClient
   end
 
   # "old" match history is the game-v1.3 endpoint that includes all summoner ids
-  def fetch_old_match_history(id)
-    response = HTTParty.get("#{BASE_URL}/v1.3/game/by-summoner/#{id}/recent?api_key=#{API_KEY}")
+  def fetch_old_match_history(summoner_id)
+    response = HTTParty.get("#{BASE_URL}/v1.3/game/by-summoner/#{summoner_id}/recent?api_key=#{API_KEY}")
 
     if response.code == 200
       JSON.parse(response.body)

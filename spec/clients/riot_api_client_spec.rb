@@ -13,8 +13,7 @@ RSpec.describe RiotApiClient, type: :client do
       it 'returns summoner info' do
         stub_request(:get, fetch_summoner_url).
           to_return(
-            body: {"23472148":{"id":23472148,"name":"all3nvan","profileIconId":917,"summonerLevel":30,"revisionDate":1463376656000}}.
-              to_json,
+            body: File.read('./spec/api_responses/summoner.json'),
             status: 200)
 
         response = riot_api_client.fetch_summoner(summoner_id)
@@ -42,8 +41,7 @@ RSpec.describe RiotApiClient, type: :client do
       it 'returns match history' do
         stub_request(:get, fetch_old_match_history_url).
           to_return(
-            body: {"games":[{},{},{},{},{},{},{},{},{},{}],"summonerId": 23472148}
-              .to_json,
+            body: File.read('./spec/api_responses/old_match_history.json'),
             status: 200)
 
         response = riot_api_client.fetch_old_match_history(summoner_id)
