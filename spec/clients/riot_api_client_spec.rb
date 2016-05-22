@@ -18,8 +18,8 @@ RSpec.describe RiotApiClient, type: :client do
 
         response = riot_api_client.fetch_summoner(summoner_id)
 
-        expect(response['id']).to eq(summoner_id)
-        expect(response['name']).to eq('all3nvan')
+        expect(response[RiotApiKeys::ID]).to eq(summoner_id)
+        expect(response[RiotApiKeys::NAME]).to eq('all3nvan')
       end
     end
 
@@ -46,8 +46,8 @@ RSpec.describe RiotApiClient, type: :client do
 
         response = riot_api_client.fetch_old_match_history(summoner_id)
 
-        expect(response['summonerId']).to eq(summoner_id)
-        expect(response['games']).to be_an_instance_of(Array)
+        expect(response[RiotApiKeys::SUMMONER_ID]).to eq(summoner_id)
+        expect(response[RiotApiKeys::GAMES]).to be_an_instance_of(Array)
       end
     end
 
